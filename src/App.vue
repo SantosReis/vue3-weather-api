@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue'
 import SearchInput from './components/SearchInput.vue'
+import WeatherCard from './components/WeatherCard.vue'
 
 const places = ref([])
 
 const addPlace = (data) => {
-  console.log(data)
+  // console.log(data)
+  places.value.push(data)
 }
 </script>
 <template>
@@ -24,5 +26,12 @@ const addPlace = (data) => {
 
     <!-- Search -->
     <div><SearchInput @place-data="addPlace" /></div>
+
+    <!-- Weather cards -->
+    <div class="grid grid-cols-2 gap-4">
+      <div v-for="(place, idx) in places" :key="idx">
+        <WeatherCard :place="place" />
+      </div>
+    </div>
   </main>
 </template>
