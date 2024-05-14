@@ -3,6 +3,8 @@ import { reactive } from 'vue'
 
 const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY
 
+const emit = defineEmits(['place-data'])
+
 const searchTerm = reactive({
   query: '',
   timeout: null,
@@ -29,6 +31,20 @@ const handleSearch = () => {
     }
   }, 500)
 }
+
+const getWeather = async (id) => {
+  //console.log(id) //checking place ID
+  const res = await fetch(
+    `http://api.weatherapi.com/v1/forecast.json?key=` +
+      WEATHER_API_KEY +
+      `&q=id:${id}&days=3&aqi=no&alerts=no`
+  )
+
+  const data = await res.json()
+
+  // console.log(data)
+  emit('place-data', data)
+}
 </script>
 
 <template>
@@ -53,6 +69,7 @@ const handleSearch = () => {
       <div v-if="searchTerm.results !== null">
         <div v-for="place in searchTerm.results" :key="place.id">
           <button
+            @click="getWeather(place.id)"
             class="px-3 my-2 hover:text-indigo-600 hover:font-bold w-full text-left"
           >
             {{ place.name }}, {{ place.region }}, {{ place.country }}

@@ -1,5 +1,12 @@
 <script setup>
+import { ref } from 'vue'
 import SearchInput from './components/SearchInput.vue'
+
+const places = ref([])
+
+const addPlace = (data) => {
+  console.log(data)
+}
 </script>
 <template>
   <main>
@@ -16,8 +23,6 @@ import SearchInput from './components/SearchInput.vue'
     </div>
 
     <!-- Search -->
-    <div>
-      <SearchInput />
-    </div>
+    <div><SearchInput @place-data="addPlace" /></div>
   </main>
 </template>
