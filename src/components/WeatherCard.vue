@@ -7,7 +7,15 @@ import WeatherInfo from './WeatherInfo.vue'
 defineProps({
   place: Object,
 })
+
+const emit = defineEmits(['delete-place'])
+
 const showDetail = ref(false)
+
+const removePlace = (placeName) => {
+  emit('delete-place', placeName)
+  showDetail.value = false
+}
 </script>
 
 <template>
@@ -53,9 +61,15 @@ const showDetail = ref(false)
     </div>
 
     <!-- info -->
-    <div v-show="showDetail">
-      <WeatherInfo :place="place" />
-    </div>
+    <Transition name="fade">
+      <div v-show="showDetail">
+        <WeatherInfo
+          :place="place"
+          @close-info="showDetail = false"
+          @remove-place="removePlace(place.location.name)"
+        />
+      </div>
+    </Transition>
 
     <!-- forecast btn -->
     <div class="flex justify-end items-center gap-1 mt-10">
