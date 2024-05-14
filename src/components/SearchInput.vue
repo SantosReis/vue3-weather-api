@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from 'vue'
 
-const emit = defineEmits(['place-data'])
+const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY
 
 const searchTerm = reactive({
   query: '',
@@ -12,7 +12,17 @@ const searchTerm = reactive({
 const handleSearch = () => {
   clearTimeout(searchTerm.timeout)
   searchTerm.timeout = setTimeout(async () => {
-    console.log(searchTerm.query)
+    if (searchTerm.query !== '') {
+      const res = await fetch(
+        `http://api.weatherapi.com/v1/search.json?key=` +
+          WEATHER_API_KEY +
+          `&q=${searchTerm.query}`
+      )
+
+      const data = await res.json()
+
+      console.log(data)
+    }
   }, 500)
 }
 </script>
