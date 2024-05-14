@@ -1,3 +1,23 @@
+<script setup>
+import SearchInput from './components/SearchInput.vue'
+</script>
 <template>
-  <h1 class="p-5">Hello World</h1>
+  <main>
+    <!-- Date -->
+    <div class="text-center mb-6">
+      {{
+        new Date().toLocaleDateString('en-us', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      }}
+    </div>
+
+    <!-- Search -->
+    <div>
+      <SearchInput />
+    </div>
+  </main>
 </template>
